@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Vijayvisaharan/Capstone-Project-Backend/issues"
   },
-  "homepage": "https://github.com/Vijayvisaharan/Capstone-Project-Backend#readme"
+  "homepage": "https://github.com/Vijayvisaharan/Capstone-Project-Backend#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mongoose": "^8.5.1"
+  }
 }
