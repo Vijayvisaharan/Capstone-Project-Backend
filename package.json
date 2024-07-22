@@ -1,0 +1,19 @@
+{
+  "name": "capstone-project-backend",
+  "version": "1.0.0",
+  "description": "backend applicatiopn - RESTful API - nodejs and expressjs and Mongodb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vijayvisaharan/Capstone-Project-Backend.git"
+  },
+  "author": "Vijay Subramanium",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vijayvisaharan/Capstone-Project-Backend/issues"
+  },
+  "homepage": "https://github.com/Vijayvisaharan/Capstone-Project-Backend#readme"
+}
