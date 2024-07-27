@@ -134,8 +134,8 @@ const userController = {
             }
 
             //update the user
-            if (FirstName) user.FirstName = FirstName || user.FirstName;
-            if (LastName) user.LastName = LastName || user.LastName;
+            if (FirstName) user.firstName = FirstName || user.firstName;
+            if (LastName) user.lastName = LastName || user.lastName;
             if (email) user.email = email || user.email;
 
             //save the user
