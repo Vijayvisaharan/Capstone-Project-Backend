@@ -9,7 +9,7 @@ const auth = require('../middleware/auth');
 const userRouter = express.Router();
 
 //define the endpoints
-userRouter.post('/', userController.register);
+userRouter.post('/register', userController.register);
 userRouter.post('/login',userController.login);
 
 //authendicate route
