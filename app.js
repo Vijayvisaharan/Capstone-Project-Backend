@@ -10,6 +10,8 @@ const artRouter = require('./routes/artRoutes');
 //create a new express app
 
 const app = express();
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 //require cors
 
