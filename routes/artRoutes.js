@@ -34,7 +34,7 @@ artRouter.put('/:artId', auth.isAuth, auth.isAdmin, artController.updateArt);
 artRouter.delete('/:artId', auth.isAuth, auth.isAdmin, artController.deleteArt);
 
 //addTocart
-artRouter.post('/:artId/add', auth.isAuth, artController.addArtToCart);
+artRouter.post('/:artId/add', auth.isAuth, artController.addArtCart);
 
 
 
