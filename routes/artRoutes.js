@@ -8,7 +8,7 @@ const art = require('../models/art');
 artRouter.post('/create', auth.isAuth, auth.isAdmin, artController.createArt);
 
 //user interface
-artRouter.get('/all',auth.isAuth, artController.getAllArts);
+artRouter.get('/all', artController.getAllArts);
 artRouter.get('/cart/total', auth.isAuth, artController.getCartTotal);
 
 //cart routes
