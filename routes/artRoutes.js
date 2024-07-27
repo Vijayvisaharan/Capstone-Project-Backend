@@ -5,10 +5,10 @@ const auth = require('../middleware/auth');
 const art = require('../models/art');
 
 //define the routses
-artRouter.post('/', auth.isAuth, auth.isAdmin, artController.createArt);
+artRouter.post('/api/data', auth.isAuth, auth.isAdmin, artController.createArt);
 
 //user interface
-artRouter.get('/',auth.isAuth, artController.getAllArts);
+artRouter.get('/api/data',auth.isAuth, artController.getAllArts);
 artRouter.get('/cart/total', auth.isAuth, artController.getCartTotal);
 
 //cart routes

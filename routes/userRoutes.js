@@ -9,7 +9,7 @@ const auth = require('../middleware/auth');
 const userRouter = express.Router();
 
 //define the endpoints
-userRouter.post('/', userController.register);
+userRouter.post('/api/data', userController.register);
 userRouter.post('/login',userController.login);
 
 //authendicate route
@@ -19,7 +19,7 @@ userRouter.delete('/getCurrentuser', auth.isAuth, userController.delete);
 userRouter.post('/logout',auth.isAuth, userController.logout);
 
 //admin routes
-userRouter.get('/', auth.isAuth, auth.isAdmin, userController.getAllUsers);
+userRouter.get('/api/data', auth.isAuth, auth.isAdmin, userController.getAllUsers);
 userRouter.get('/:id', auth.isAuth, auth.isAdmin, userController.getUserById);
 userRouter.put('/:id', auth.isAuth, auth.isAdmin, userController.updateUserById);
 userRouter.delete('/:id', auth.isAuth, auth.isAdmin, userController.deleteUserById);
