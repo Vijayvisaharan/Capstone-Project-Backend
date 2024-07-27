@@ -44,7 +44,9 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 //define the endpoint
-
+app.get('/api/data', (req, res) => {
+    res.json({ message: 'Here is your data' });
+});
 app.use('/api/users',userRouter);
 app.use('/api/arts', artRouter);
 
