@@ -12,7 +12,7 @@ const artController = {
         try {
             //get the art data from the request body
 
-            const { title, description, price, category, artist, location, status } = req.body;
+            const { title, description, price, category, artist,images, location, status } = req.body;
 
             //get the user id from the request
             const { userId } = req;
@@ -25,6 +25,7 @@ const artController = {
                 category,
                 artist,
                 location,
+                images,
                 status,
                 createdBy: userId,
                 cart: []
