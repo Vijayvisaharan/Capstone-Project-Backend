@@ -98,7 +98,7 @@ const artController = {
             //get the art id from the request params
             const { artId } = req.params;
 
-            const deleteArt = await User.findByIdAndDelete(artId);
+            const deleteArt = await Art.findByIdAndDelete(artId);
 
             //if the user does not exist
             if (!deleteArt) {
