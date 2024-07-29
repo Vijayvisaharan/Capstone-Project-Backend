@@ -80,6 +80,10 @@ const artController = {
 
             const updateArt = await Art.findByIdAndUpdate(artId, req.body, { new: true });
 
+            if (!updateArt) {
+                return res.status(404).json({ message: 'Art not found' });
+            }
+
             //return the updated art
             res.status(200).json({ message: 'Art updated successfully', art: updateArt });
 
