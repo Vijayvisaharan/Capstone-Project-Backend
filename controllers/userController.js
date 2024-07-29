@@ -17,7 +17,7 @@ const userController = {
         try {
 
             //get the user data from the request body
-            const { firstName, lastName, email, password } = req.body;
+            const { firstName, lastName, email, password,role } = req.body;
 
             //check if the user already exists
             const user = await User.findOne({ email });
@@ -35,7 +35,8 @@ const userController = {
                 firstName,
                 lastName,
                 email,
-                passwordHash
+                passwordHash,
+                role
             });
             //save the user
             await newUser.save();
