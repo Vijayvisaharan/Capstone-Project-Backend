@@ -92,7 +92,7 @@ const userController = {
                 expires: new Date(Date.now() + 24 * 60 * 60 * 1000),//24 hours expiration
             })
 
-            res.status(200).json({ message: 'user logged in successfully', token })
+            res.status(200).json({ message: 'user logged in successfully', token ,role:user.role})
 
 
         } catch (error) {
