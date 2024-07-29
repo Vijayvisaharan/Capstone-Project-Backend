@@ -18,12 +18,17 @@ const userController = {
 
             //get the user data from the request body
             const { firstName, lastName, email, password,role } = req.body;
+             
+            console.log("Received Role:", role); 
+
+            if (!['user', 'admin'].includes(role)) {
+                return res.status(400).json({ message: 'Invalid role' });
+            }
+            //check if the user already exists
+            const existingUser = await User.findOne({ email });
 
             //check if the user already exists
-            const user = await User.findOne({ email });
-
-            //check if the user already exists
-            if (user) {
+            if ( existingUser) {
                 return res.status(400).json({ message: 'User already exists' });
             }
 
