@@ -12,7 +12,7 @@ const artController = {
         try {
             //get the art data from the request body
 
-            const { title, description, price, category, artist,images, location, status } = req.body;
+            const { title, description, price, category, artist, images, location, status } = req.body;
 
             //get the user id from the request
             const { userId } = req;
@@ -119,7 +119,7 @@ const artController = {
             const { artId } = req.params;
 
             //get the folder id from the request body
-            const { userId } = req.userId;
+            const { userId } = req;
 
             if (!userId) {
                 return res.status(400).json({ message: 'User ID not found' });
@@ -149,12 +149,14 @@ const artController = {
             //     new: true
             // }
             // );
+            if (!user.cart.includes(artId)) {
 
-            //add the art to the folder
-            user.cart.push(artId);
+                //add the art to the folder
+                user.cart.push(artId);
+                //save the art
+                await user.save();
+            }
 
-            //save the art
-            await user.save();
             //already added to cart return the art
 
             //return the art
@@ -226,7 +228,7 @@ const artController = {
             res.status(500).json({ message: 'Error updating art quantity', error });
 
         }
-    },      
+    },
     //user get added art by id
     getAddedArtById: async (req, res) => {
         try {
@@ -311,24 +313,24 @@ const artController = {
     },
 
     //fillter the art by category
-    getArtsByCategory : async (req, res) => {
+    getArtsByCategory: async (req, res) => {
         try {
             //get the category from the request params
             const { category } = req.params;
-    
+
             //find all arts
             const arts = await Art.find({ category });
-    
+
             //return the arts
             res.status(200).json({ arts });
-    
+
         } catch (error) {
             res.status(500).json({ message: 'Error getting arts', error });
         }
     },
 
     //search the art by title
-    searchArtByTitle : async (req, res) => {
+    searchArtByTitle: async (req, res) => {
         try {
             //get the title from the request params
             const { title } = req.params;
@@ -345,7 +347,7 @@ const artController = {
     },
 
     //get the art by artist
-    searchArtByArtist : async (req, res) => {
+    searchArtByArtist: async (req, res) => {
         try {
             //get the artist from the request params
             const { artist } = req.params;
@@ -359,10 +361,10 @@ const artController = {
         } catch (error) {
             res.status(500).json({ message: 'Error getting arts', error });
         }
-    
+
     },
     //filter the art by price
-    filterArtByPrice : async (req, res) => {
+    filterArtByPrice: async (req, res) => {
         try {
             //get the price from the request params
             const { price } = req.params;
@@ -378,7 +380,7 @@ const artController = {
         }
 
     }
-    
+
 
 }
 
