@@ -119,7 +119,11 @@ const artController = {
             const { artId } = req.params;
 
             //get the folder id from the request body
-            const { userId } = req;
+            const { userId } = req.userId;
+
+            if (!userId) {
+                return res.status(400).json({ message: 'User ID not found' });
+            }
 
 
             //find the art by id
@@ -147,14 +151,14 @@ const artController = {
             // );
 
             //add the art to the folder
-            art.cart = userId;
+            user.cart.push(artId);
 
             //save the art
-            const saveArt = await art.save();
+            await user.save();
             //already added to cart return the art
 
             //return the art
-            res.status(200).json({ message: 'Art added to folder successfully', art: saveArt });
+            res.status(200).json({ message: 'Art added to folder successfully', art });
 
         } catch (error) {
             res.status(500).json({ message: 'Error adding art to folder', error });
