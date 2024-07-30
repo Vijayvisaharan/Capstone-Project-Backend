@@ -273,7 +273,7 @@ const artController = {
             }
     
             // Find the user's cart
-            const cartItem = await Cart.findOne({ userId });
+            const cart = await Cart.findOne({ userId });
             if (!cart) {
                 return res.status(400).json({ message: 'Cart not found' });
             }
