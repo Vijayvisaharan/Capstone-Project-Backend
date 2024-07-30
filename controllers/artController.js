@@ -267,7 +267,7 @@ const artController = {
 
             // Get the user ID from the request
             const userId = req; // Adjust this if needed based on your authentication setup
-            console.log('Attempting to remove art with ID:', artId);
+            
             // Find the user by ID
             const user = await User.findById(userId);
 
