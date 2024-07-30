@@ -194,37 +194,45 @@ const artController = {
     },
 
     //update added art by user quentity
-     updateAddedArtQuantity : async (req, res) => {
+    updateAddedArtQuantity: async (req, res) => {
         try {
             // Get the art ID from the request params
             const { artId } = req.params;
-    
+        
+            // Get the quantity from the request body
+            const { quantity } = req.body;
+        
             // Get the user ID from the request
             const userId = req.userId; // Adjust this if needed based on your authentication setup
-    
+        
+            // Validate quantity
+            if (quantity < 1) {
+                return res.status(400).json({ message: 'Quantity must be at least 1' });
+            }
+        
             // Find the user by ID
-            const user = await User.findById(userId);
-    
+            const user = await User.findById(userId).populate('cart');
+        
             if (!user) {
                 return res.status(400).json({ message: 'User not found' });
             }
-    
+        
             // Find the art item in the user's cart
-            const cartItem = user.cart.find(item => item.artId.toString() === artId);
-    
-            if (!cartItem) {
+            const artItemIndex = user.cart.findIndex(item => item._id.toString() === artId);
+        
+            if (artItemIndex === -1) {
                 return res.status(400).json({ message: 'Art item not found in cart' });
             }
-    
+        
             // Update the quantity of the art item in the cart
-            cartItem.quantity = req.body.quantity;
-    
+            user.cart[artItemIndex].quantity = quantity;
+        
             // Save the user with the updated cart
             await user.save();
-    
+        
             // Return success response
             res.status(200).json({ message: 'Art quantity updated successfully', user });
-    
+        
         } catch (error) {
             res.status(500).json({ message: 'Error updating art quantity', error });
         }

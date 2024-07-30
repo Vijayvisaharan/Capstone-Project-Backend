@@ -12,8 +12,10 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user'
     },
-    cart: [{ type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Art' }]
+    cart: [{ 
+        art: { type: mongoose.Schema.Types.ObjectId, ref: 'Art' },
+        quantity: { type: Number, default: 1 }
+     }]
 })
 //create a model
 module.exports = mongoose.model('User', userSchema, 'users')
