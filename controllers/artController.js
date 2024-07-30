@@ -257,38 +257,31 @@ const artController = {
     //remove added art by user
     removeAddedArt: async (req, res) => {
         try {
-            //get the art id from the request params
+            // Get the art id from the request params
             const { artId } = req.params;
-
             const { userId } = req;
-
-            //find the art by id
-            const art = await Art.findById(artId);
-
-            if (!art) {
-                return res.status(400).json({ message: 'Art not found' })
-            }
-
-            //find user by id
+    
+            // Find the user by id
             const user = await User.findById(userId);
-
-            //if the art does not exist
             if (!user) {
-                return res.status(400).json({ message: 'user not found' })
+                return res.status(400).json({ message: 'User not found' });
             }
-
-            //remove the art from the folder
-            art.cart = null;
-
-            //save the art
-            const saveArt = await art.save();
-
-            //return the art
-            res.status(200).json({ message: 'Art removed from folder successfully', art: saveArt });
-
+    
+            // Find the user's cart
+            const cart = await Cart.findOne({ userId });
+            if (!cart) {
+                return res.status(400).json({ message: 'Cart not found' });
+            }
+    
+            // Remove the art from the cart
+            cart.items = cart.items.filter(item => item.artId.toString() !== artId);
+    
+            // Save the updated cart
+            const updatedCart = await cart.save();
+    
+            res.status(200).json({ message: 'Art removed from cart successfully', cart: updatedCart });
         } catch (error) {
-            res.status(500).json({ message: 'Error removing art from folder', error });
-
+            res.status(500).json({ message: 'Error removing art from cart', error });
         }
     },
     getCartTotal: async (req, res) => {
