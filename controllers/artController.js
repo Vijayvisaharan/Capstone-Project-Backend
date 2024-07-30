@@ -113,33 +113,63 @@ const artController = {
         }
     },
     //add the art to particular folder to view for future use
-    addArtCart : async (req, res) => {
+    addArtCart: async (req, res) => {
         try {
-            const { artId } = req.params; // Get artId from URL parameters
-            const { userId } = req; // Get userId from request (e.g., from middleware)
-    
-            // Find or create a cart for the user
-            let cart = await Cart.findOne({ userId });
-            if (!cart) {
-                cart = new Cart({ userId, items: [] });
+            //get the art id from the request params
+            const { artId } = req.params;
+
+            //get the folder id from the request body
+            const { userId } = req;
+
+            if (!userId) {
+                return res.status(400).json({ message: 'User ID not found' });
             }
-    
-            // Check if the item is already in the cart
-            const itemIndex = cart.items.findIndex(item => item.artId.toString() === artId);
-            if (itemIndex !== -1) {
-                return res.status(400).json({ message: 'Item already in cart' });
+
+
+            //find the art by id
+            const art = await Art.findById(artId);
+         
+
+            if (!art) {
+                return res.status(400).json({ message: 'Art not found' })
             }
-    
-            // Add the item to the cart
-            cart.items.push({ artId, quantity: 1 });
-    
-            // Save the updated cart
-            const updatedCart = await cart.save();
-    
-            res.status(200).json({ message: 'Item added to cart successfully', cart: updatedCart });
+
+            //find user by id
+            const user = await User.findById(userId);
+
+            //if the art does not exist
+            if (!user) {
+                return res.status(400).json({ message: 'user not found' })
+            }
+            //if alredy have a artid in cart throw error
+            if (user.cart.includes(artId)) {
+                return res.status(400).json({ message: 'Art already in folder' })
+            }
+       
+            // const updateArt = await Art.findByIdAndUpdate(artId, {
+            //     $push: {
+            //         cart: userId
+            //     }
+            // }, {
+            //     new: true
+            // }
+            // );
+            if (!user.cart.includes(artId)) {
+
+                //add the art to the folder
+                user.cart.push(artId);
+                //save the art
+                await user.save();
+            }
+
+            //already added to cart return the art
+
+            //return the art
+            res.status(200).json({ message: 'Art added to folder successfully', art });
+
         } catch (error) {
-            console.error('Error adding item to cart:', error);
-            res.status(500).json({ message: 'Error adding item to cart', error });
+            res.status(500).json({ message: 'Error adding art to folder', error });
+
         }
     },
     //get the all added arts
@@ -243,7 +273,7 @@ const artController = {
             }
     
             // Find the user's cart
-            const cart = await Cart.findOne({ userId });
+            const cartItem = await Cart.findOne({ userId });
             if (!cart) {
                 return res.status(400).json({ message: 'Cart not found' });
             }
