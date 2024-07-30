@@ -113,7 +113,7 @@ const artController = {
         }
     },
     //add the art to particular folder to view for future use
-    addToCart : async (req, res) => {
+    addArtCart : async (req, res) => {
         try {
             const { artId } = req.params; // Get artId from URL parameters
             const { userId } = req; // Get userId from request (e.g., from middleware)
