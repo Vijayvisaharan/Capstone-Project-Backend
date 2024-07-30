@@ -194,41 +194,39 @@ const artController = {
     },
 
     //update added art by user quentity
-    updateAddedArtQuantity: async (req, res) => {
+     updateAddedArtQuantity : async (req, res) => {
         try {
-            //get the art id from the request params
+            // Get the art ID from the request params
             const { artId } = req.params;
-
-            //get the user id from the request
-            const { userId } = req;
-
-            //find the art by id
-            const art = await Art.findById(artId);
-
-            if (!art) {
-                return res.status(400).json({ message: 'Art not found' })
-            }
-
-            //find user by id
+    
+            // Get the user ID from the request
+            const userId = req.userId; // Adjust this if needed based on your authentication setup
+    
+            // Find the user by ID
             const user = await User.findById(userId);
-
-            //if the art does not exist
+    
             if (!user) {
-                return res.status(400).json({ message: 'user not found' })
+                return res.status(400).json({ message: 'User not found' });
             }
-
-            //update the art quantity
-            art.quantity = req.body.quantity;
-
-            //save the art
-            const saveArt = await art.save();
-
-            //return the art
-            res.status(200).json({ message: 'Art quantity updated successfully', art: saveArt });
-
+    
+            // Find the art item in the user's cart
+            const cartItem = user.cart.find(item => item.artId.toString() === artId);
+    
+            if (!cartItem) {
+                return res.status(400).json({ message: 'Art item not found in cart' });
+            }
+    
+            // Update the quantity of the art item in the cart
+            cartItem.quantity = req.body.quantity;
+    
+            // Save the user with the updated cart
+            await user.save();
+    
+            // Return success response
+            res.status(200).json({ message: 'Art quantity updated successfully', user });
+    
         } catch (error) {
             res.status(500).json({ message: 'Error updating art quantity', error });
-
         }
     },
     //user get added art by id
