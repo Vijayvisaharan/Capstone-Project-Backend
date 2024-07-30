@@ -168,24 +168,26 @@ const artController = {
         }
     },
     //get the all added arts
-    getAddedArts: async (req, res) => {
+    getAddedArts : async (req, res) => {
         try {
-            //get the folder id from the request
-            const { userId } = req.userId;
-
-            //find the user by id
+            // Retrieve user ID from request
+            const userId = req.userId;
+    
+            // Find the user by ID
             const user = await User.findById(userId);
-
+    
             if (!user) {
-                return res.status(400).json({ message: 'user not found' })
+                return res.status(400).json({ message: 'User not found' });
             }
-
-            //find all arts
-            const arts = await Art.find({ cart: userId });
-
-            //return the arts
+    
+            // Get the list of art IDs from the user's cart
+            const artIds = user.cart;
+    
+            // Find all arts where the ID is in the list of art IDs
+            const arts = await Art.find({ _id: { $in: artIds } });
+    
+            // Return the arts
             res.status(200).json(arts);
-
         } catch (error) {
             res.status(500).json({ message: 'Error getting arts', error });
         }
