@@ -171,7 +171,7 @@ const artController = {
     getAddedArts: async (req, res) => {
         try {
             //get the folder id from the request
-            const { userId } = req;
+            const { userId } = req.userId;
 
             //find the user by id
             const user = await User.findById(userId);
