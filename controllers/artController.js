@@ -261,32 +261,30 @@ const artController = {
 
     //remove added art by user
     removeAddedArt: async (req, res) => {
-        const { userId, artId } = req.body; // Assume you receive these from the request body
+        try {
+            //get the art id from the request params
+            const { artId } = req.params;
+            const { userId } = req;
 
-  try {
-    // Find the user
-    const user = await User.findById(userId);
+            //find user by id
+            const user = await User.findById(userId);
 
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
+            const deleteArt = await user.findByIdAndDelete(artId);
 
-    console.log('Cart before update:', user.cart);
+            //if the user does not exist
+            if (!deleteArt) {
+                return res.status(400).json({ message: 'Art not found' })
+            }
+            // user.cart = user.cart.filter(itemId => itemId !== artId);
 
-    // Filter out the artId from the cart
-    user.cart = user.cart.filter(itemId => itemId !== artId);
+            //return the user
+            res.status(200).json({ message: 'Art deleted successfully' })
 
-    console.log('Cart after update:', user.cart);
-
-    // Save the updated user
-    await user.save();
-
-    res.json({ message: 'Item removed from cart', cart: user.cart });
-  } catch (error) {
-    console.error('Error removing item from cart:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-},
+        } catch (error) {
+            res.status(500).json({ message: 'Error deleting art', error });
+        }
+    },
+        
     getCartTotal: async (req, res) => {
         try {
             //get the folder id from the request
