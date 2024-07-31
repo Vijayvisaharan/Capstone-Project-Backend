@@ -264,7 +264,7 @@ const artController = {
         try {
             //get the art id from the request params
             const { artId } = req.params;
-            const { userId } = req;
+            const userId = req.userId;
             console.log(artId, userId);
             if (!artId || !userId) {
                 return res.status(400).json({ message: 'Art ID and User ID are required' });
