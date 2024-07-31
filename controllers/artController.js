@@ -265,7 +265,7 @@ const artController = {
             //get the art id from the request params
             const { artId } = req.params;
 
-            //get the folder id from the request body
+            
             const { userId } = req;
 
             if (!userId) {
@@ -287,6 +287,14 @@ const artController = {
             //if the art does not exist
             if (!user) {
                 return res.status(400).json({ message: 'user not found' })
+            }
+            if (!artId || !userId) {
+                return res.status(400).json({ message: 'Art ID and User ID are required' });
+            }
+    
+            // Validate ObjectId
+            if (!mongoose.Types.ObjectId.isValid(artId) || !mongoose.Types.ObjectId.isValid(userId)) {
+                return res.status(400).json({ message: 'Invalid Art ID or User ID' });
             }
 
            // Find the index of the artId in the user's cart
