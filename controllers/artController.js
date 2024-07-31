@@ -307,7 +307,16 @@ const artController = {
  
         user.cart.splice(index, 1);
 
-        await user.save();
+        console.log('User Cart After:', user.cart);
+
+        // Save the updated user
+        try {
+            await user.save();
+        } catch (dbError) {
+            console.error('Error saving user:', dbError);
+            return res.status(500).json({ message: 'Error saving user', error: dbError.message });
+        }
+
             //return the user
             res.status(200).json({ message: 'Art deleted successfully' })
 
