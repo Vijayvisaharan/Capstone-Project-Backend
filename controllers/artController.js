@@ -279,7 +279,7 @@ const artController = {
             const user = await User.findById(userId).populate('cart.art');
 
             const art = await Art.findById(artId);
-            
+
             if (!art) {
                 return res.status(404).json({ message: 'Art not found' });
             }
@@ -287,7 +287,7 @@ const artController = {
                 return res.status(404).json({ message: 'User not found' });
             }
             
-            const artObjectId = mongoose.Types.ObjectId(artId);
+            const artObjectId = artId
             console.log('User Cart:', user.cart);
             console.log('Art ObjectId:', artObjectId.toString());
 
