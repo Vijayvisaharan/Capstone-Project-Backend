@@ -264,13 +264,30 @@ const artController = {
         try {
             //get the art id from the request params
             const { artId } = req.params;
-            const userId = req.userId;
-            console.log(artId, userId);
-            if (!artId || !userId) {
-                return res.status(400).json({ message: 'Art ID and User ID are required' });
+
+            //get the folder id from the request body
+            const { userId } = req;
+
+            if (!userId) {
+                return res.status(400).json({ message: 'User ID not found' });
             }
+
+
+            //find the art by id
+            const art = await Art.findById(artId);
+         
+
+            if (!art) {
+                return res.status(400).json({ message: 'Art not found' })
+            }
+
             //find user by id
             const user = await User.findById(userId);
+
+            //if the art does not exist
+            if (!user) {
+                return res.status(400).json({ message: 'user not found' })
+            }
 
            // Find the index of the artId in the user's cart
            const index = user.cart.findIndex(cartItem => cartItem.art.equals(artId));
