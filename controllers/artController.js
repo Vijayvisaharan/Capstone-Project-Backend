@@ -266,7 +266,7 @@ const artController = {
             const { artId } = req.params;
 
             
-            const { userId } = req;
+            const userId = req.userId;
 
             if (!userId) {
                 return res.status(400).json({ message: 'User ID not found' });
