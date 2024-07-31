@@ -277,7 +277,9 @@ const artController = {
     
             // Find user and art
             const user = await User.findById(userId).populate('cart.art');
-    
+
+            const art = await Art.findById(artId);
+            
             if (!art) {
                 return res.status(404).json({ message: 'Art not found' });
             }
