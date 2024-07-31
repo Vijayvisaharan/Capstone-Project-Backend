@@ -274,9 +274,22 @@ const artController = {
             if (!user) {
                 return res.status(400).json({ message: 'User not found' });
             }
+           //find  the art by id
+            const art = await Art.findById(artId);
+            if (!art) {
+                return res.status(400).json({ message: 'Art not found' });
+            }
 
+            
             // Remove the art ID from the user's cart
-            user.cart = user.cart.filter(itemId => itemId.toString() !== artId);
+            user.cart = user.cart.filter(itemId => itemId !== artId);
+          ;
+
+            // Save the user with the updated cart
+            await user.save();
+           
+           
+            
 
             // Save the user with the updated cart
             await user.save();
@@ -288,35 +301,6 @@ const artController = {
             res.status(500).json({ message: 'Error removing art from folder', error });
         }
     },
-    // removeAddedArt: async (req, res) => {
-    //     try {
-    //         // Get the art id from the request params
-    //         const { artId } = req.params;
-    //         const { userId } = req;
-    
-    //         // Find the user by id
-    //         const user = await User.findById(userId);
-    //         if (!user) {
-    //             return res.status(400).json({ message: 'User not found' });
-    //         }
-    
-    //         // Find the user's cart
-    //         const cart = await Cart.findOne({ userId });
-    //         if (!cart) {
-    //             return res.status(400).json({ message: 'Cart not found' });
-    //         }
-    
-    //         // Remove the art from the cart
-    //         cart.items = cart.items.filter(item => item.artId.toString() !== artId);
-    
-    //         // Save the updated cart
-    //         const updatedCart = await cart.save();
-    
-    //         res.status(200).json({ message: 'Art removed from cart successfully', cart: updatedCart });
-    //     } catch (error) {
-    //         res.status(500).json({ message: 'Error removing art from cart', error });
-    //     }
-    // },
     getCartTotal: async (req, res) => {
         try {
             //get the folder id from the request
