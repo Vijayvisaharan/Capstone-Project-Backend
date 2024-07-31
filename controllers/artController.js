@@ -267,13 +267,13 @@ const artController = {
             const { artId } = req.params;
             const userId = req.userId;
     
-            // Validate input
-            if (!mongoose.Types.ObjectId.isValid(artId)) {
-                return res.status(400).json({ message: 'Invalid Art ID' });
-            }
-            if (!mongoose.Types.ObjectId.isValid(userId)) {
-                return res.status(400).json({ message: 'Invalid User ID' });
-            }
+            // // Validate input
+            // if (!mongoose.Types.ObjectId.isValid(artId)) {
+            //     return res.status(400).json({ message: 'Invalid Art ID' });
+            // }
+            // if (!mongoose.Types.ObjectId.isValid(userId)) {
+            //     return res.status(400).json({ message: 'Invalid User ID' });
+            // }
     
             // Find user and art
             const [art, user] = await Promise.all([
@@ -287,9 +287,14 @@ const artController = {
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
-    
+            
+            const artObjectId = new mongoose.Schema.Types.ObjectId(artId);
+
             // Find and remove the art from the user's cart
-            const index = user.cart.findIndex(cartItem => cartItem.art.equals(artObjectId));
+            const index = user.cart.findIndex(cartItem =>{
+                
+                return cartItem.art && cartItem.art._id && cartItem.art._id===(artObjectId);              
+            } )
             if (index === -1) {
                 return res.status(404).json({ message: 'Art not found in cart' });
             }
