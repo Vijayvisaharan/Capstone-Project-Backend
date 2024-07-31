@@ -296,9 +296,10 @@ const artController = {
             if (!mongoose.Types.ObjectId.isValid(artId) || !mongoose.Types.ObjectId.isValid(userId)) {
                 return res.status(400).json({ message: 'Invalid Art ID or User ID' });
             }
-
+             
+            const artObjectId = mongoose.Types.ObjectId(artId);
            // Find the index of the artId in the user's cart
-           const index = user.cart.findIndex(cartItem => cartItem.art.equals(artId));
+           const index = user.cart.findIndex(cartItem => cartItem.art.equals(artObjectId));
          
 
            if (index === -1) {
