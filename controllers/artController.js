@@ -261,46 +261,32 @@ const artController = {
 
     //remove added art by user
     removeAddedArt: async (req, res) => {
-        try {
-            // Get the art ID from the request params
-            const { artId } = req.params;
+        const { userId, artId } = req.body; // Assume you receive these from the request body
 
-            // Get the user ID from the request
-            const userId = req; // Adjust this if needed based on your authentication setup
-            
-            // Find the user by ID
-            const user = await User.findById(userId);
+  try {
+    // Find the user
+    const user = await User.findById(userId);
 
-            if (!user) {
-                return res.status(400).json({ message: 'User not found' });
-            }
-           //find  the art by id
-            const art = await Art.findById(artId);
-            if (!art) {
-                return res.status(400).json({ message: 'Art not found' });
-            }
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
-            
-            // Remove the art ID from the user's cart
-            user.cart = user.cart.filter(itemId => itemId !== artId);
-          ;
+    console.log('Cart before update:', user.cart);
 
-            // Save the user with the updated cart
-            await user.save();
-           
-           
-            
+    // Filter out the artId from the cart
+    user.cart = user.cart.filter(itemId => itemId !== artId);
 
-            // Save the user with the updated cart
-            await user.save();
+    console.log('Cart after update:', user.cart);
 
-            // Return success response
-            res.status(200).json({ message: 'Art removed from folder successfully', user });
+    // Save the updated user
+    await user.save();
 
-        } catch (error) {
-            res.status(500).json({ message: 'Error removing art from folder', error });
-        }
-    },
+    res.json({ message: 'Item removed from cart', cart: user.cart });
+  } catch (error) {
+    console.error('Error removing item from cart:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+},
     getCartTotal: async (req, res) => {
         try {
             //get the folder id from the request
