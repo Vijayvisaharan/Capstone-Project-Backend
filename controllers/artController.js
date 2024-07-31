@@ -267,54 +267,41 @@ const artController = {
             const { artId } = req.params;
             const userId = req.userId;
     
-            if (!userId) {
-                return res.status(400).json({ message: 'User ID not found' });
+            // Validate input
+            if (!mongoose.Types.ObjectId.isValid(artId)) {
+                return res.status(400).json({ message: 'Invalid Art ID' });
+            }
+            if (!mongoose.Types.ObjectId.isValid(userId)) {
+                return res.status(400).json({ message: 'Invalid User ID' });
             }
     
-            // Find the art by id
-            const art = await Art.findById(artId);
+            // Find user and art
+            const [art, user] = await Promise.all([
+                Art.findById(artId),
+                User.findById(userId)
+            ]);
     
             if (!art) {
-                return res.status(400).json({ message: 'Art not found' });
+                return res.status(404).json({ message: 'Art not found' });
             }
-    
-            // Find user by id
-            const user = await User.findById(userId);
-    
             if (!user) {
-                return res.status(400).json({ message: 'User not found' });
+                return res.status(404).json({ message: 'User not found' });
             }
     
-            // Validate ObjectId
-            if (!mongoose.Types.ObjectId.isValid(artId) || !mongoose.Types.ObjectId.isValid(userId)) {
-                return res.status(400).json({ message: 'Invalid Art ID or User ID' });
-            }
-            
-            const artObjectId = mongoose.Types.ObjectId(artId);
-            
-            // Find the index of the artId in the user's cart
-            const index = user.cart.findIndex(cartItem => cartItem.art.equals(artObjectId));
-    
+            // Find and remove the art from the user's cart
+            const index = user.cart.findIndex(cartItem => cartItem.art.toString() === artId);
             if (index === -1) {
                 return res.status(404).json({ message: 'Art not found in cart' });
             }
     
             user.cart.splice(index, 1);
-    
-            console.log('User Cart After:', user.cart);
-    
-            // Save the updated user
-            try {
-                await user.save();
-            } catch (dbError) {
-                console.error('Error saving user:', dbError);
-                return res.status(500).json({ message: 'Error saving user', error: dbError.message });
-            }
+            await user.save();
     
             res.status(200).json({ message: 'Art deleted successfully', art });
     
         } catch (error) {
-            res.status(500).json({ message: 'Error deleting art', error });
+            console.error('Error deleting art:', error);
+            res.status(500).json({ message: 'Error deleting art', error: error.message || 'Internal Server Error' });
         }
     },
         
