@@ -293,7 +293,7 @@ const artController = {
 
             // Find and remove the art from the user's cart
             const index = user.cart.findIndex(cartItem => {
-                return cartItem.art && cartItem.art._id.toString() === artObjectId.toString();
+                return cartItem.art && cartItem.art.toString() === artObjectId.toString();
             });
     
             if (index === -1) {
