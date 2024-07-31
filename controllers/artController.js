@@ -287,15 +287,17 @@ const artController = {
                 return res.status(404).json({ message: 'User not found' });
             }
             
-            const artObjectId = artId
+           
             console.log('User Cart:', user.cart);
             console.log('Art ObjectId:', artObjectId.toString());
 
             // Find and remove the art from the user's cart
+            const artIdString = artId.toString();
+
+            // Find and remove the art from the user's cart
             const index = user.cart.findIndex(cartItem => {
-                return cartItem.art && cartItem.art.toString() === artObjectId.toString();
+                return cartItem._id.toString() === artIdString;
             });
-    
             if (index === -1) {
                 return res.status(404).json({ message: 'Art not found in cart' });
             }
