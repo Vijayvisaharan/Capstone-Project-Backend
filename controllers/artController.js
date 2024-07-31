@@ -289,7 +289,7 @@ const artController = {
             }
     
             // Find and remove the art from the user's cart
-            const index = user.cart.findIndex(cartItem => cartItem.art._id === artId);
+            const index = user.cart.findIndex(cartItem => cartItem.art.equals(artObjectId));
             if (index === -1) {
                 return res.status(404).json({ message: 'Art not found in cart' });
             }
