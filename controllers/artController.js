@@ -267,14 +267,7 @@ const artController = {
             const { artId } = req.params;
             const userId = req.userId;
     
-            // // Validate input
-            // if (!mongoose.Types.ObjectId.isValid(artId)) {
-            //     return res.status(400).json({ message: 'Invalid Art ID' });
-            // }
-            // if (!mongoose.Types.ObjectId.isValid(userId)) {
-            //     return res.status(400).json({ message: 'Invalid User ID' });
-            // }
-    
+  
             // Find user and art
             const user = await User.findById(userId).populate('cart.art');
 
@@ -288,12 +281,8 @@ const artController = {
             }
             
            
-            console.log('User Cart:', user.cart);
-            
-
-            // Find and remove the art from the user's cart
             const artIdString = artId.toString();
-            console.log('Art ObjectId:', artIdString.toString());
+           
             // Find and remove the art from the user's cart
             const index = user.cart.findIndex(cartItem => {
                 return cartItem._id.toString() === artIdString;
@@ -303,6 +292,7 @@ const artController = {
             }
     
             user.cart.splice(index, 1);
+
             await user.save();
     
             res.status(200).json({ message: 'Art deleted successfully', art });

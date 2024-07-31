@@ -46,6 +46,11 @@ const artSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
+    catagory: {
+        type: String,
+        enum: ['painting', 'sculpture', 'photography', 'drawing', 'other'],
+        default: 'other'
+    },
     status: {
         type: String,
         enum: ['available', 'sold'],
