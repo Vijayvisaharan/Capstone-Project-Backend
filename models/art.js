@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { addToCart, addArtToFolder } = require('../controllers/artController');
+
 
 //define the art schema Users can view all artwork information including title, artist, description, price, and images. 
 const artSchema = new mongoose.Schema({
