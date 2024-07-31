@@ -289,7 +289,7 @@ const artController = {
             
            
             console.log('User Cart:', user.cart);
-            console.log('Art ObjectId:', artObjectId.toString());
+            console.log('Art ObjectId:', artIdString.toString());
 
             // Find and remove the art from the user's cart
             const artIdString = artId.toString();
