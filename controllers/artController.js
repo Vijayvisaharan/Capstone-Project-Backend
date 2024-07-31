@@ -422,7 +422,8 @@ const artController = {
             res.status(500).json({ message: 'Error getting arts', error });
         }
 
-    }
+    },
+
 
 
 }
