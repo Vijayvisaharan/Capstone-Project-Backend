@@ -270,13 +270,13 @@ const artController = {
             const user = await User.findById(userId);
 
            // Find the index of the artId in the user's cart
-           const index = user.cart.findIndex(itemId => itemId === artId);
+           const index = user.cart.findIndex(cartItem => cartItem.art.equals(artId));
 
-           // If the item exists in the cart, remove it
-           if (index !== -1) {
-               user.cart.splice(index, 1);
-               await user.save();
-           }
+        // If the item exists, remove it from the cart
+        if (index !== -1) {
+            user.cart.splice(index, 1); // Remove the item at the found index
+            await user.save(); // Save the updated user
+        }
 
             //return the user
             res.status(200).json({ message: 'Art deleted successfully' })
