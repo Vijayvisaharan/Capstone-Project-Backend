@@ -288,7 +288,7 @@ const artController = {
                 return res.status(404).json({ message: 'User not found' });
             }
             
-            const artObjectId = new mongoose.Schema.Types.ObjectId(artId);
+            const artObjectId =  mongoose.Types.ObjectId(artId);
 
             // Find and remove the art from the user's cart
             const index = user.cart.findIndex(cartItem =>{
