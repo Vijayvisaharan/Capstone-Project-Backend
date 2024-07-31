@@ -299,7 +299,7 @@ const artController = {
              
             const artObjectId = mongoose.Types.ObjectId(artId);
            // Find the index of the artId in the user's cart
-           const index = user.cart.findIndex(cartItem => cartItem.art.equals(artObjectId));
+           const index = user.cart.findIndex(cartItem => cartItem._id.equals(artObjectId));
          
 
            if (index === -1) {
@@ -319,7 +319,7 @@ const artController = {
         }
 
             //return the user
-            res.status(200).json({ message: 'Art deleted successfully' })
+            res.status(200).json({ message: 'Art deleted successfully',art})
 
         } catch (error) {
             res.status(500).json({ message: 'Error deleting art', error });
