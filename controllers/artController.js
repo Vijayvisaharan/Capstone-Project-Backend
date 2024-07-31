@@ -288,12 +288,12 @@ const artController = {
                 return res.status(404).json({ message: 'User not found' });
             }
             
-            const artObjectId =  mongoose.Types.ObjectId(artId);
+            const artObjectId = mongoose.Types.ObjectId(artId);
 
             // Find and remove the art from the user's cart
             const index = user.cart.findIndex(cartItem =>{
                 
-                return cartItem.art && cartItem.art._id && cartItem.art._id===(artObjectId);              
+                return cartItem.art && cartItem.art._id && cartItem.art._id.toString() === artObjectId.toString();              
             } )
             if (index === -1) {
                 return res.status(404).json({ message: 'Art not found in cart' });
