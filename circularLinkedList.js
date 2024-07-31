@@ -53,7 +53,7 @@ function DeleteLast(head) {
 // Testing the function
 let head = new Node(1);
 let second = new Node(2);
-let third = new Node(3);
+let third = new Node(2);
 
 head.next = second;
 second.next = third;
