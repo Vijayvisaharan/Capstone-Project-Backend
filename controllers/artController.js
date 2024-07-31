@@ -1,7 +1,7 @@
 //import the art model
-const Art = require('../models/art');
-
 const mongoose = require('mongoose');
+
+const Art = require('../models/art');
 
 //import the user model
 const User = require('../models/user');
@@ -276,10 +276,7 @@ const artController = {
             // }
     
             // Find user and art
-            const [art, user] = await Promise.all([
-                Art.findById(artId),
-                User.findById(userId)
-            ]);
+            const user = await User.findById(userId).populate('cart.art');
     
             if (!art) {
                 return res.status(404).json({ message: 'Art not found' });
