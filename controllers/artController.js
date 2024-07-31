@@ -264,8 +264,11 @@ const artController = {
         try {
             //get the art id from the request params
             const { artId } = req.params;
-            const { userId } = req;
+            const { userId } = req.body;
 
+            if (!artId || !userId) {
+                return res.status(400).json({ message: 'Art ID and User ID are required' });
+            }
             //find user by id
             const user = await User.findById(userId);
 
