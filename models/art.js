@@ -17,22 +17,8 @@ const artSchema = new mongoose.Schema({
 
     },
     artist: {
-        name: {
-            type: String,
-            
-        },
-        bio: {
-            type: String,
-            
-        },
-        portfolio: {
-            type: String,
-           
-        },
-        images: {
-            type:[String],
-            
-        }
+        type: String,
+        required: true
     },
     description: {
         type: String,

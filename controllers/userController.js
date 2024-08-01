@@ -169,8 +169,6 @@ const userController = {
                 return res.status(400).json({ message: 'user not found' })
             }
 
-
-
             //return the user
             res.status(200).json({ message: 'user deleted successfully' })
 
@@ -179,25 +177,6 @@ const userController = {
         }
 
     },
-
-    //logout the user
-    // logout: async (req, res) => {
-    //     try {
-    //         //clear the cookie
-    //         res.clearCookie('token',{
-    //             httpOnly: true,
-    //             secure: true,
-    //             sameSite: 'none',
-    //         });
-
-    //         //retun logout message
-    //         res.status(200).json({ message: 'user logged out successfully' })
-
-    //     } catch (error) {
-    //         res.status(500).json({ message: error.message });
-
-    //     }
-    // }
     logout: async (req, res) => {
         try {
             //clear the cookie
@@ -271,8 +250,8 @@ const userController = {
             }
 
             //update the user
-            if (FirstName) user.FirstName = FirstName || user.FirstName;
-            if (LastName) user.LastName = LastName || user.LastName;
+            if (FirstName) user.firstName = FirstName || user.firstName;
+            if (LastName) user.lastName = LastName || user.lastName;
             if (email) user.email = email || user.email;
 
             //save the user

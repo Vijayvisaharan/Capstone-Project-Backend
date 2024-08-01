@@ -210,7 +210,7 @@ const artController = {
             const { quantity } = req.body;
         
             // Get the user ID from the request
-            const userId = req.userId; // Adjust this if needed based on your authentication setup
+            const userId = req.userId; 
         
             // Validate quantity
             if (quantity < 1) {

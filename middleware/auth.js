@@ -18,7 +18,7 @@ const auth = {
                 const decodedToken = jwt.verify(token,process.env.JWT_SECRET);
 
                 //get the user from the decode token
-                //attach it to re   uest object
+                //attach it to request object
                 req.userId = decodedToken.id;
 
                 //call the next middleware

@@ -23,9 +23,6 @@ artRouter.get('/search/artist', artController.searchArtByArtist);
 artRouter.get('/search/price', artController.filterArtByPrice);
 
 
-
-
-
 //user interface get by id
 artRouter.get('/:artId', auth.isAuth, artController.getArtById);
 
