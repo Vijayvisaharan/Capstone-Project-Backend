@@ -26,7 +26,7 @@ const morgan = require('morgan');
 //use the cors middleware
 
 app.use(cors({
-    origin: 'http://localhost:5173', // my frontend URL
+    origin: 'https://capstone-project-frontend.netlify.app/', // my frontend URL
     credentials: true
   }));
     
