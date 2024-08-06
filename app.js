@@ -26,9 +26,8 @@ const morgan = require('morgan');
 //use the cors middleware
 
 app.use(cors({
-    origin: 'http://localhost:3001',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+  origin: 'http://localhost:3001',
+  credentials: true
   }));
     
 
